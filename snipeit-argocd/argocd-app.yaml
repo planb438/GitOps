@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: snipeit
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/git-ops/snipeit-argocd.git
+    targetRevision: HEAD
+    path: .
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: snipeit
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

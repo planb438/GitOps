@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snipeit
+  namespace: snipeit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snipeit
+  template:
+    metadata:
+      labels:
+        app: snipeit
+    spec:
+      containers:
+        - name: snipeit
+          image: snipe/snipe-it:latest
+          ports:
+            - containerPort: 80
+
+          env:
+            - name: APP_ENV
+              value: production
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: snipeit-secret
+                  key: APP_KEY
+
+            - name: DB_HOST
+              value: mysql
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: snipeit-secret
+                  key: MYSQL_DATABASE
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: snipeit-secret
+                  key: MYSQL_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: snipeit-secret
+                  key: MYSQL_PASSWORD
+
+          resources:
+            requests:
+              memory: "300Mi"
+              cpu: "100m"
+              ephemeral-storage: "1Gi"
+            limits:
+              memory: "600Mi"
+              cpu: "500m"
+              ephemeral-storage: "2Gi"
