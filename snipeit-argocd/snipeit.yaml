@@ -23,7 +23,7 @@ spec:
             - name: APP_ENV
               value: production
             - name: APP_URL
-              value: "http://ec2-3-92-53-170.compute-1.amazonaws.com:30080"  
+              !value: "http://ec2-3-92-53-170.compute-1.amazonaws.com:30080"  
             - name: APP_KEY
               valueFrom:
                 secretKeyRef:
