@@ -22,26 +22,38 @@ spec:
           env:
             - name: APP_ENV
               value: production
+
             - name: APP_URL
-              !value: "http://ec2-3-92-53-170.compute-1.amazonaws.com:30080"  
+              value: "http://ec2-3-92-53-170.compute-1.amazonaws.com:30080"
+
             - name: APP_KEY
               valueFrom:
                 secretKeyRef:
                   name: snipeit-secret
                   key: APP_KEY
 
+            # DB SETTINGS (COMPLETE)
+            - name: DB_CONNECTION
+              value: mysql
+
             - name: DB_HOST
               value: mysql
+
+            - name: DB_PORT
+              value: "3306"
+
             - name: DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   name: snipeit-secret
                   key: MYSQL_DATABASE
+
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: snipeit-secret
                   key: MYSQL_USER
+
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -57,3 +69,10 @@ spec:
               memory: "600Mi"
               cpu: "500m"
               ephemeral-storage: "2Gi"
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 40
+            periodSeconds: 10
