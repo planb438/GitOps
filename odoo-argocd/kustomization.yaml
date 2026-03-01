@@ -1,0 +1,6 @@
+resources:
+- namespace.yaml
+- postgres.yaml
+- odoo.yaml
+- service.yaml
+- secret.yaml
